@@ -12,8 +12,8 @@ export default function Sidebar() {
 
   const menu = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
-    { name: "Groups", href: "/dashboard/groups", icon: Users },
-    { name: "Expenses", href: "/dashboard/expenses", icon: CreditCard },
+    { name: "Groups", href: "/groups", icon: Users },
+    { name: "Expenses", href: "/expenses", icon: CreditCard },
   ];
 
   const handleLogout = () => {

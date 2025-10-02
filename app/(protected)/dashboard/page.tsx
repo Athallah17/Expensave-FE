@@ -3,9 +3,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "@/components/templates/DashboardLayout";
 import { DashboardContent } from "@/components/organisms/DashboardContent";
 import { authService } from "@/services/authService";
-import { Card } from "@/components/atoms/Card";
-import { SkeletonCard } from "@/components/atoms/SkeletonCard";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
 
 export default function DashboardPage() {
   const [me, setMe] = useState<{ name: string } | null>(null);

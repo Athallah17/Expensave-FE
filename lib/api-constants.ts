@@ -6,7 +6,13 @@ export const API = {
   },
   GROUPS: {
     BASE: "/groups",
-    MEMBERS: (id: string) => `/groups/${id}/members`,
+    CREATE: "/groups", // POST
+    LIST: "/groups", // GET
+    DETAILS: (groupId: string) => `/groups/${groupId}`, // GET
+    UPDATE: (groupId: string) => `/groups/${groupId}`, // PUT
+    DELETE: (groupId: string) => `/groups/${groupId}`, // DELETE
+    ADD_MEMBER: (groupId: string, userId: string) => `/groups/${groupId}/members/${userId}`, // POST
+    REMOVE_MEMBER: (groupId: string, userId: string) => `/groups/${groupId}/members/${userId}`, // DELETE
   },
   EXPENSES: {
     BASE: "/expenses",

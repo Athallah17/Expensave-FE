@@ -82,12 +82,12 @@ export function useGroup() {
     }
   };
 
-  const addMember = async (groupId: string, userId: string) => {
+  const addMember = async (groupId: string, data: { shortCode: string }) => {
     setLoading(true);
     setError("");
     try {
-        await groupService.addMember(groupId, userId);
-        router.refresh();
+      await groupService.addMember(groupId, data.shortCode);
+      router.refresh();
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to add member");
     } finally {

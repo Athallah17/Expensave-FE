@@ -14,9 +14,12 @@ export const groupService = {
 
     deleteGroup: (groupId: string) => axiosInstance.delete(API.GROUPS.DELETE(groupId)),
 
-    addMember: (groupId: string, userId: string) =>
-        axiosInstance.post(API.GROUPS.ADD_MEMBER(groupId, userId)),
+    addMember: (groupId: string, shortCode: string) =>
+        axiosInstance.post(API.GROUPS.ADD_MEMBER(groupId), { shortCode }),
 
     removeMember: (groupId: string, userId: string) =>
         axiosInstance.delete(API.GROUPS.REMOVE_MEMBER(groupId, userId)),
+
+    joinGroupByCode: (code: string) =>
+        axiosInstance.post(API.GROUPS.JOIN_BY_CODE(), { code }),
 };

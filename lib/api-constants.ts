@@ -11,8 +11,9 @@ export const API = {
     DETAILS: (groupId: string) => `/groups/${groupId}`, // GET
     UPDATE: (groupId: string) => `/groups/${groupId}`, // PUT
     DELETE: (groupId: string) => `/groups/${groupId}`, // DELETE
-    ADD_MEMBER: (groupId: string, userId: string) => `/groups/${groupId}/members/${userId}`, // POST
+    ADD_MEMBER: (groupId: string) => `/groups/${groupId}/add`, // POST
     REMOVE_MEMBER: (groupId: string, userId: string) => `/groups/${groupId}/members/${userId}`, // DELETE
+    JOIN_BY_CODE: () => `/groups/join/code`, // POST
   },
   EXPENSES: {
     BASE: "/expenses",

@@ -1,38 +1,24 @@
+"use client";
+import { useEffect, useState } from "react";
 import ExpenseLayout from "@/components/templates/ExpenseLayout";
 import { ExpenseCard } from "@/components/molecules/ExpenseCard";
-import { CustomButton } from "@/components/atoms/CustomButton";
 import { ModalButton } from "@/components/molecules/ModalButton";
 import { ExpenseForm } from "@/components/organisms/ExpenseForm";
+import { useExpense } from "@/hooks/useExpense";
 
-async function getExpenses() {
-    // Placeholder data
-    return [
-        {
-            id: 1,
-            title: "Groceries",
-            amount: 50,
-            category: "Food",
-            date: "2024-06-01",
-        },
-        {
-            id: 2,
-            title: "Internet Bill",
-            amount: 30,
-            category: "Utilities",
-            date: "2024-06-03",
-        },
-        {
-            id: 3,
-            title: "Movie Tickets",
-            amount: 25,
-            category: "Entertainment",
-            date: "2024-06-05",
-        },
-    ];
-}
 
-export default async function ExpensesPage() {
-  const expenses = await getExpenses();
+export default function ExpensesPage() {
+    const { getExpense} = useExpense();
+    const [expenses, setExpenses] = useState([]);
+
+  async function fetchExpenses() {
+    const response = await getExpense();
+    setExpenses(response?.data ?? []);
+  }
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
 
   return (
     <ExpenseLayout>
@@ -42,7 +28,7 @@ export default async function ExpensesPage() {
             {/* Button To add Expense */}
             <ModalButton
                 label="Add New Expense"
-                modalComponent={<ExpenseForm />}
+                modalComponent={<ExpenseForm onSuccess={fetchExpenses} />}
             />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -53,7 +39,7 @@ export default async function ExpensesPage() {
                 title={e.title}
                 amount={e.amount}
                 category={e.category}
-                date={new Date(e.date).toLocaleDateString()}
+                date={new Date(e.createdAt).toLocaleDateString()}
             />
             ))}
         </div>

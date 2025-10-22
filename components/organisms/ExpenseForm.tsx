@@ -1,35 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState} from "react";
 import { CustomInput } from "@/components/atoms/CustomInput";
 import { CustomButton } from "@/components/atoms/CustomButton";
+import { useExpense } from "@/hooks/useExpense";
 
-export function ExpenseForm({ groupId }: { groupId?: number }) {
+
+interface ExpenseFormProps {
+  groupId?: number;
+  onSuccess?: () => void; // ✅ callback to close modal & refresh
+}
+
+export function ExpenseForm({ groupId, onSuccess }: ExpenseFormProps) {
   const [form, setForm] = useState({
     title: "",
     amount: "",
+    description: "",
     category: "",
     date: "",
   });
+  const { createExpense } = useExpense();
 
-  async function handleSubmit(e: React.FormEvent) {
+async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // submit new data to backend 
-    const token = localStorage.getItem("token");
-    await fetch("http://localhost:5000/api/expenses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        ...form,
-        amount: parseFloat(form.amount),
-        groupId: groupId ?? null,
-      }),
+
+    await createExpense({
+      ...form,
+      amount: parseFloat(form.amount),
+      groupId: groupId ? groupId.toString() : undefined,
     });
 
-    setForm({ title: "", amount: "", category: "", date: "" });
+    // ✅ reset form and trigger success callback
+    setForm({ title: "", amount: "", description: "", category: "", date: "" });
+    if (onSuccess) onSuccess();
   }
 
   return (
@@ -46,6 +49,12 @@ export function ExpenseForm({ groupId }: { groupId?: number }) {
         type="number"
         value={form.amount}
         onChange={(e) => setForm({ ...form, amount: e.target.value })}
+      />
+      <CustomInput
+        label="Description"
+        name="description"
+        value={form.description}
+        onChange={(e) => setForm({ ...form, description: e.target.value })}
       />
       <CustomInput
         label="Category"

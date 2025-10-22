@@ -1,3 +1,5 @@
+import { List } from "lucide-react";
+
 export const API = {
   AUTH: {
     LOGIN: "/auth/login",
@@ -16,7 +18,11 @@ export const API = {
     JOIN_BY_CODE: () => `/groups/join/code`, // POST
   },
   EXPENSES: {
-    BASE: "/expenses",
+    BASE: "/expenses", //POST (Create New expense)
+    LIST: "/expenses", // GET (List expenses)
+    DETAILS: (id: string) => `/expenses/${id}`, // GET
+    UPDATE: (id: string) => `/expenses/${id}`, // PUT
+    DELETE: (id: string) => `/expenses/${id}`, // DELETE
     SPLIT: (id: string) => `/expenses/${id}/split`,
   },
 };

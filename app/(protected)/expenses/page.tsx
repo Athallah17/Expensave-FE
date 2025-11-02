@@ -4,6 +4,7 @@ import ExpenseLayout from "@/components/templates/ExpenseLayout";
 import { ExpenseCard } from "@/components/molecules/ExpenseCard";
 import { ModalButton } from "@/components/molecules/ModalButton";
 import { ExpenseForm } from "@/components/organisms/ExpenseForm";
+import ExpenseStatusTag from "@/components/molecules/ExpenseStatusTag";
 import { useExpense } from "@/hooks/useExpense";
 
 

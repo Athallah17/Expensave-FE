@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Users, CreditCard, LogOut, Menu } from "lucide-react";
+import { Home, Users, CreditCard, LogOut, Menu, Banknote,BanknoteArrowDown,Handshake } from "lucide-react";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -13,7 +13,9 @@ export default function Sidebar() {
   const menu = [
     { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "Groups", href: "/groups", icon: Users },
-    { name: "Expenses", href: "/expenses", icon: CreditCard },
+    { name: "Settlements", href: "/settlements", icon: Handshake },
+    { name: "Expenses", href: "/expenses", icon: BanknoteArrowDown },
+    { name: "Splits", href: "/splits", icon: Banknote },
   ];
 
   const handleLogout = () => {

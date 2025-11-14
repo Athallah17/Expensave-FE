@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import DashboardLayout from "@/components/templates/DashboardLayout";
-import { DashboardContent } from "@/components/organisms/DashboardContent";
+import { DashboardContent } from "@/components/organisms/dashboard/DashboardContent";
 import { authService } from "@/services/authService";
 
 

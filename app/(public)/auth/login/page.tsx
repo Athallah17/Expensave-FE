@@ -1,12 +1,20 @@
-import AuthForm from "@/components/molecules/AuthForm";
+import AuthLayout from '@/components/molecules/auth/AuthLayout';
+import LoginForm from '@/components/molecules/auth/LoginForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Login - Expensave',
+  description: 'Login to your Expensave account to track expenses and split bills with friends.',
+};
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <AuthForm type="login" />
-      </div>
-    </div>
+    <AuthLayout
+      type="login"
+      title="Welcome back"
+      subtitle="Login to continue managing your expenses"
+    >
+      <LoginForm />
+    </AuthLayout>
   );
 }

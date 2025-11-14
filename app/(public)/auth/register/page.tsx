@@ -1,12 +1,20 @@
-import AuthForm from "@/components/molecules/AuthForm";
+import AuthLayout from '@/components/molecules/auth/AuthLayout';
+import RegisterForm from '@/components/molecules/auth/RegisterForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Sign Up - Expensave',
+  description: 'Create your free Expensave account to start tracking expenses and splitting bills.',
+};
 
 export default function RegisterPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-        <AuthForm type="register" />
-      </div>
-    </div>
+    <AuthLayout
+      type="register"
+      title="Start saving together"
+      subtitle="Create your free account in seconds"
+    >
+      <RegisterForm />
+    </AuthLayout>
   );
 }

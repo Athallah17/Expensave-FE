@@ -1,33 +1,44 @@
 "use client";
-import { useEffect, useState } from "react";
+
 import DashboardLayout from "@/components/templates/DashboardLayout";
 import { DashboardContent } from "@/components/organisms/dashboard/DashboardContent";
-import { authService } from "@/services/authService";
+import { useAuth } from "@/context/AuthContext";
 
+// Type for Go backend user
+type User = {
+  id: number;
+  uuid: string;
+  shortCode: string;
+  name: string;
+  email: string;
+  createdAt: string;
+};
 
 export default function DashboardPage() {
-  const [me, setMe] = useState<{ name: string } | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
-  useEffect(() => {
-    authService
-      .me()
-      .then((res) => setMe(res.data))
-      .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
+   console.log("Dashboard user:", user);
 
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <p className="text-center text-lg">Loading...</p>
+      </DashboardLayout>
+    );
+  }
+
+  if (!user) {
+    return (
+      <DashboardLayout>
+        <p className="text-center text-lg text-red-500">Please login to access the dashboard</p>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-        {loading ? (
-          <p>Loading...</p>
-        ) : me ? (
-          <p className="mb-6 font-semibold text-2xl">Welcome, {me.name} 👋</p>
-        ) : (
-          <p>Unable to fetch user info</p>
-        )}
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <p className="mb-6 font-semibold text-2xl">Welcome, {user?.name} 👋</p>
       <DashboardContent />
     </DashboardLayout>
   );

@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import {Bell, UserCircle, Landmark} from 'lucide-react';
-
+import { useAuth } from '@/context/AuthContext';
 export default function Header() {
+    const { user } = useAuth();
     return (
         <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
             {/* Logo on the far left */}
@@ -18,11 +19,11 @@ export default function Header() {
                 </button>
                 <div className="flex items-center gap-3">
                     <div className="text-right">
-                        <p className="text-sm font-semibold text-white">John Doe</p>
-                        <p className="text-xs text-slate-300">john@example.com</p>
+                        <p className="text-sm font-semibold text-white">{user?.name}</p>
+                        <p className="text-xs text-slate-300">{user?.email}</p>
                     </div>
                     <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-xl flex items-center justify-center text-white font-semibold">
-                        JD
+                        {user?.name?.charAt(0)}
                     </div>
                 </div>
             </div>

@@ -3,10 +3,11 @@ import { API } from "@/lib/api-constants";
 
 export const authService = {
   login: (email: string, password: string) =>
-    axiosInstance.post(API.AUTH.LOGIN, { email, password }),
+    axiosInstance.post("/auth/login", { email, password }),
 
-  register: (name: string, email: string, password: string) =>
-    axiosInstance.post(API.AUTH.REGISTER, { name, email, password }),
+  logout: () => axiosInstance.post("/auth/logout"),
 
-  me: () => axiosInstance.get(API.AUTH.ME),
+  me: () => axiosInstance.get("/me"),
+
+  refresh: () => axiosInstance.post("/auth/refresh"),
 };

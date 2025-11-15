@@ -24,20 +24,27 @@ export function useGroup() {
     }
   };
 
-  //Group Details
-  const getGroupDetails = async (groupId: string) => {
+  const getGroupDetails = async (id: string) => {
     setLoading(true);
     setError("");
     try {
-      const group = await groupService.getGroupDetails(groupId);
-      return group;
+      // Fetch group basic info
+      const group = await groupService.getGroupDetails(id);
+    
+      // Combine group + members
+      return {
+        ...group,
+        members: group.data.members || [],
+        memberCount: group.data.members?.length || 0,
+        totalExpenses: group.data.totalExpenses || 0,
+      };
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to fetch group details");
+      return null;
     } finally {
       setLoading(false);
     }
   };
-
   // Create group
   const createGroup = async (form: { name: string; description?: string }) => {
     setLoading(true);

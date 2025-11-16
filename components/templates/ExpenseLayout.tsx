@@ -1,5 +1,6 @@
 import Sidebar from "@/components/molecules/Sidebar";
 
+
 export default function ExpensesLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">

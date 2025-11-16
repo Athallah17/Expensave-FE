@@ -3,10 +3,7 @@ import axiosInstance from "@/lib/axiosInstance";
 export const expenseService = {
   createExpense: (data: any) => axiosInstance.post("/expenses/", data),
 
-  getExpenses: () => axiosInstance.get("/expenses/").catch(err => {
-    console.error("Error fetching expenses:", err.response?.data || err);
-    throw err; // rethrow if you want
-  }),
+  getExpenses: () => axiosInstance.get("/expenses/", { params: { } }),
 
   getExpenseDetails: (id: string) => axiosInstance.get(`/expenses/${id}`),
 

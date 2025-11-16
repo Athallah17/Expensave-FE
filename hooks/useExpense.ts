@@ -3,20 +3,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { expenseService } from "@/services/expenseService";
-import { Expense } from "@/types/expense"; // import the new types
+import { Expense } from "@/types/expense";
+import {categoryMap}  from "@/lib/categoryMap";
+import dayjs from "dayjs";
+
+
 
 export function useExpense() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
-  // Get all Expenses
-  const getExpenses = async (): Promise<Expense[]> => {
+  // Get all expenses
+  const getAllExpenses = async (): Promise<Expense[]> => {
     setLoading(true);
     setError("");
     try {
       const res = await expenseService.getExpenses();
-      return res.data as Expense[]; // cast to new type
+      console.log("Fetched expenses:", res.data);
+      return res.data as Expense[];
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to fetch expenses");
       return [];
@@ -25,7 +30,7 @@ export function useExpense() {
     }
   };
 
-  // Get single expense details
+  // Get expense detail
   const getExpenseDetails = async (expenseId: string): Promise<Expense | null> => {
     setLoading(true);
     setError("");
@@ -40,17 +45,70 @@ export function useExpense() {
     }
   };
 
-  // Create, update, delete, split remain the same
-  // ...
-  
+  // Create expense
+  const createExpense = async (data: any) => {
+    setLoading(true);
+    setError("");
+    try {
+      await expenseService.createExpense(data);
+      router.refresh();
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to create expense");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update expense
+  const updateExpense = async (id: string, data: any) => {
+    setLoading(true);
+    setError("");
+    try {
+      await expenseService.updateExpense(id, data);
+      router.refresh();
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to update expense");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete expense
+  const deleteExpense = async (id: string) => {
+    setLoading(true);
+    setError("");
+    try {
+      await expenseService.deleteExpense(id);
+      router.refresh();
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to delete expense");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Split expense (group auto split)
+  const splitExpense = async (groupId: string) => {
+    setLoading(true);
+    setError("");
+    try {
+      await expenseService.splitExpense(groupId);
+      router.refresh();
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to split expense");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
-    getExpenses,
+    getAllExpenses,   // 🔥 correct name
     getExpenseDetails,
-    // createExpense,
-    // updateExpense,
-    // deleteExpense,
-    // splitExpense,
+    createExpense,
+    updateExpense,
+    deleteExpense,
+    splitExpense,
   };
 }

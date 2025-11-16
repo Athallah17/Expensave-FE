@@ -30,7 +30,7 @@ export function ExpenseItem({ title, category, amount, date, icon: Icon, color, 
         <p className="text-sm text-slate-500">{date}</p>
       </div>
       <div className="text-right">
-        <p className="font-bold text-rose-600">${amount.toFixed(2)}</p>
+        <p className="font-bold text-rose-600">{amount.toFixed(2)}</p>
         <p className="text-xs text-slate-500">{category}</p>
       </div>
       <button className="text-slate-400 hover:text-slate-600">

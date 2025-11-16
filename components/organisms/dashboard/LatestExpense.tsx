@@ -1,18 +1,26 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { ShoppingBag, Coffee, Car, Film } from 'lucide-react';
 import { ExpenseItem } from '@/components/molecules/dashboard/ExpenseItem';
+import { DashboardData } from '@/hooks/useDashboard';
+import React from 'react';
 
-const expenses = [
-  { id: 1, title: 'Grocery Shopping', category: 'Food', amount: -85.50, date: '2 hours ago', icon: ShoppingBag, color: 'bg-teal-100 text-teal-600' },
-  { id: 2, title: 'Coffee Break', category: 'Food', amount: -12.30, date: '5 hours ago', icon: Coffee, color: 'bg-amber-100 text-amber-600' },
-  { id: 3, title: 'Uber Ride', category: 'Transport', amount: -25.00, date: 'Yesterday', icon: Car, color: 'bg-blue-100 text-blue-600' },
-  { id: 4, title: 'Movie Tickets', category: 'Entertainment', amount: -45.00, date: '2 days ago', icon: Film, color: 'bg-purple-100 text-purple-600' },
-  { id: 5, title: 'Gas Station', category: 'Transport', amount: -60.00, date: '3 days ago', icon: Car, color: 'bg-blue-100 text-blue-600' },
-];
+type LatestExpensesCardProps = {
+  dashboard: DashboardData;
+};
 
-export function LatestExpensesCard() {
+const categoryMap: Record<string, { icon: any; color: string }> = {
+  Food: { icon: Coffee, color: 'bg-amber-100 text-amber-600' },
+  Foods: { icon: Coffee, color: 'bg-amber-100 text-amber-600' },
+  Transport: { icon: Car, color: 'bg-blue-100 text-blue-600' },
+  Shopping: { icon: ShoppingBag, color: 'bg-teal-100 text-teal-600' },
+  Entertainment: { icon: Film, color: 'bg-purple-100 text-purple-600' },
+  Tools: { icon: ShoppingBag, color: 'bg-gray-100 text-gray-600' },
+  Supplies: { icon: ShoppingBag, color: 'bg-gray-100 text-gray-600' },
+};
+
+function LatestExpensesCardComponent({ dashboard }: LatestExpensesCardProps) {
+  const latestExpenses = dashboard.latestExpenses || [];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -25,10 +33,25 @@ export function LatestExpensesCard() {
         <button className="text-sm font-medium text-teal-600 hover:text-teal-700">View All</button>
       </div>
       <div className="space-y-3">
-        {expenses.map((expense, index) => (
-          <ExpenseItem key={expense.id} {...expense} delay={0.7 + index * 0.1} />
-        ))}
+        {latestExpenses.map((expense, index) => {
+          const cat = categoryMap[expense.category] || { icon: ShoppingBag, color: 'bg-gray-100 text-gray-600' };
+          return (
+            <ExpenseItem
+              key={expense.id}
+              id={expense.id}
+              title={expense.title || expense.description || 'No Title'}
+              category={expense.category || 'Others'}
+              amount={expense.amount}
+              date={new Date(expense.createdAt).toLocaleString()}
+              icon={cat.icon}
+              color={cat.color}
+              delay={0.7 + index * 0.1}
+            />
+          );
+        })}
       </div>
     </motion.div>
   );
 }
+
+export const LatestExpensesCard = React.memo(LatestExpensesCardComponent, (prev, next) => prev.dashboard === next.dashboard);

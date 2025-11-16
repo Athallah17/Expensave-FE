@@ -13,7 +13,7 @@ export function CategoryRow({ name, amount, percentage, color, delay = 0 }: Cate
     <div>
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-slate-700">{name}</span>
-        <span className="text-sm font-bold text-slate-800">${amount}</span>
+        <span className="text-sm font-bold text-slate-800">{amount}</span>
       </div>
       <ProgressBar percentage={percentage} color={color} delay={delay} />
     </div>

@@ -5,7 +5,7 @@ export function CategoryLegendItem({ name, value, color }: { name: string; value
         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
         <span className="text-sm text-slate-700">{name}</span>
       </div>
-      <span className="text-sm font-semibold text-slate-800">${value}</span>
+      <span className="text-sm font-semibold text-slate-800">{value}</span>
     </div>
   );
 }

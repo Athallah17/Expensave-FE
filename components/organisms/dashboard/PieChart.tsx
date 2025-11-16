@@ -1,18 +1,20 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { CategoryLegendItem } from '@/components/molecules/dashboard/CategoryLegend';
+import { DashboardData } from '@/hooks/useDashboard';
+import React from 'react';
 
-const pieData = [
-  { name: 'Food', value: 450, color: '#14b8a6' },
-  { name: 'Transport', value: 280, color: '#f59e0b' },
-  { name: 'Shopping', value: 350, color: '#f43f5e' },
-  { name: 'Entertainment', value: 180, color: '#8b5cf6' },
-  { name: 'Others', value: 140, color: '#6366f1' },
-];
+type CategoryPieChartCardProps = {
+  dashboard: DashboardData;
+};
 
-export function CategoryPieChartCard() {
+function CategoryPieChartCardComponent({ dashboard }: CategoryPieChartCardProps) {
+  const pieData = dashboard.spendingByCategory.map((item, index) => ({
+    name: item.category,
+    value: item._sum.amount,
+    color: ['#14b8a6', '#f59e0b', '#f43f5e', '#8b5cf6', '#6366f1', '#eab308', '#f97316'][index % 7],
+  }));
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -29,7 +31,13 @@ export function CategoryPieChartCard() {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid #e2e8f0', borderRadius: '12px' }} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>
@@ -41,3 +49,5 @@ export function CategoryPieChartCard() {
     </motion.div>
   );
 }
+
+export const CategoryPieChartCard = React.memo(CategoryPieChartCardComponent, (prev, next) => prev.dashboard === next.dashboard);

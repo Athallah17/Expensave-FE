@@ -1,19 +1,20 @@
-'use client';
-
 import { motion } from 'framer-motion';
-import { LineChart, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Select } from '@/components/atoms/Select';
+import { DashboardData } from '@/hooks/useDashboard';
+import React from 'react';
 
-const data = [
-  { month: 'Jan', expense: 1200, income: 3500 },
-  { month: 'Feb', expense: 1800, income: 3200 },
-  { month: 'Mar', expense: 1500, income: 3800 },
-  { month: 'Apr', expense: 2200, income: 4000 },
-  { month: 'May', expense: 1900, income: 3600 },
-  { month: 'Jun', expense: 1820, income: 4200 },
-];
+type ExpenseChartCardProps = {
+  dashboard: DashboardData;
+};
 
-export function ExpenseChartCard() {
+function ExpenseChartCardComponent({ dashboard }: ExpenseChartCardProps) {
+  const data = [
+    { month: '1M', expense: dashboard.expenseOverview['1Month'], income: dashboard.thisMonthIncome },
+    { month: '3M', expense: dashboard.expenseOverview['3Month'], income: dashboard.thisMonthIncome * 3 },
+    { month: '6M', expense: dashboard.expenseOverview['6Month'], income: dashboard.thisMonthIncome * 6 },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -44,7 +45,13 @@ export function ExpenseChartCard() {
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
             <YAxis stroke="#64748b" fontSize={12} />
-            <Tooltip contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid #e2e8f0', borderRadius: '12px' }} />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+              }}
+            />
             <Area type="monotone" dataKey="income" stroke="#14b8a6" strokeWidth={2} fillOpacity={1} fill="url(#colorIncome)" />
             <Area type="monotone" dataKey="expense" stroke="#f43f5e" strokeWidth={2} fillOpacity={1} fill="url(#colorExpense)" />
           </AreaChart>
@@ -53,3 +60,5 @@ export function ExpenseChartCard() {
     </motion.div>
   );
 }
+
+export const ExpenseChartCard = React.memo(ExpenseChartCardComponent, (prev, next) => prev.dashboard === next.dashboard);

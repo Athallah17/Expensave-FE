@@ -1,14 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { StatsGrid } from '@/components/organisms/dashboard/StatsGrid';
-import { ExpenseChartCard } from '@/components/organisms/dashboard/ExpenseChartGrid';
-import { CategoryPieChartCard } from '@/components/organisms/dashboard/PieChart';
-import { LatestExpensesCard } from '@/components/organisms/dashboard/LatestExpense';
-import { TopCategoriesCard } from '@/components/organisms/dashboard/TopCategories';
-import { QuickActionsCard } from '@/components/organisms/dashboard/QuickAction';
+import { motion } from "framer-motion";
+import { StatsGrid } from "./StatsGrid";
+import { ExpenseChartCard } from "./ExpenseChartGrid";
+import { CategoryPieChartCard } from "./PieChart";
+import { LatestExpensesCard } from "./LatestExpense";
+import { TopCategoriesCard } from "./TopCategories";
+import { QuickActionsCard } from "./QuickAction";
+import { useDashboardContext } from "@/context/DashboardContext";
+
 export const DashboardContent = () => {
+  const { data, loading, error } = useDashboardContext();
+
+  if (loading) return <p className="text-center text-lg">Loading dashboard...</p>;
+  if (error) return <p className="text-center text-lg text-red-500">{error}</p>;
+  if (!data) return <p className="text-center text-lg">No dashboard data available</p>;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <motion.div
@@ -17,25 +24,25 @@ export const DashboardContent = () => {
         transition={{ duration: 0.5 }}
         className="space-y-6"
       >
-        <StatsGrid />
-        
+        <StatsGrid dashboard={data} />
+
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <ExpenseChartCard />
+            <ExpenseChartCard dashboard={data} />
           </div>
-          <CategoryPieChartCard />
+          <CategoryPieChartCard dashboard={data} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <LatestExpensesCard />
+            <LatestExpensesCard dashboard={data} />
           </div>
           <div className="space-y-6">
-            <TopCategoriesCard />
+            <TopCategoriesCard dashboard={data} />
             <QuickActionsCard />
           </div>
         </div>
       </motion.div>
     </div>
   );
-}
+};

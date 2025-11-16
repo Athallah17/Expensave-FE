@@ -1,7 +1,7 @@
 'use client';
 
 import { GroupCard, GroupData } from '@/components/organisms/group/GroupCard';
-import { EmptyState } from '@/components/molecules/group/EmptyState';
+import { EmptyState } from '@/components/molecules/expense/EmptyState';
 
 interface GroupsGridProps {
   groups: GroupData[];
